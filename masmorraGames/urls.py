@@ -1,8 +1,7 @@
 from django.contrib import admin
 from django.urls import path
-from eventos.views import inicio
-
+from eventos.views import index
 urlpatterns = [
-    path('', inicio),
+    path('', index),
     path("admin/", admin.site.urls),
 ]

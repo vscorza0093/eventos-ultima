@@ -239,7 +239,7 @@ def index(request):
 
 Agora o Django é capaz de reconhecer nossoa arquivo HTML e transformá-lo em uma página web.
 
-## Static: Django reconhecendo CSS e JavaScript
+### Informações estáticas em Django
 
 O arquivo css que queremos que o django reconheça deve estar dentro de uma pasta chamada `static`, isso faz com que não seja necessário especificar o caminho completo do arquivo para o django encontrá-lo.
 
@@ -253,4 +253,93 @@ STATIC_URL = "static/"
 <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
 ```
 
-## Recuperando informações do banco de dados
+### Informações dinâmicas em Django
+
+Até aqui, utilizamos arquivos entendidos como estáticos (CSS, JS) para construir nossa página. Mas e se quisessemos alterar nossa página de maneira dinâmica? Por exemplo, com informação provinda do banco de dados ou de uma variável do sistema?
+
+O sistema de Tempaltes do Django possui algumas marcações especiais para que possamos fazer alterações dinâmicas na nossa página.
+
+A função `render` presente dentro do arquivo `views.py` pode receber diversos parâmetros, porém, o terceiro parâmetro, que é bastante comum, conhecido como `contexto` é um dicionário Python.
+Esse contexto, que é uma variável criada em arquivo python, pode ser utilizada dentro do nosso arquivo HTML.
+Existem três componentes pricipais do Template:
+
+```
+Variável -> Alguma informação do contexto que desejamos "imprimir" na nossa página web
+```
+
+```python
+def index(request):
+    context = {
+        'title': "Summer Sale chegou na Steam!"
+    }
+    return render(request, 'index.html', context)
+```
+
+Após criarmos a variável de contexto dentro do nosso arquivo `views.py`, podemos fazer a seguinte troca:
+
+Ao invés de criar um título estático para nossa aplicação:
+
+```html
+<h1>Título da Página</h1>
+```
+
+Devemos utilizar `{{ }}` (chaves duplas) para especificar e imputar a variável criada no arquivo `views.py` dentro do nosso arquivo HTML
+
+```html
+<h1>{{titulo}}</h1>
+```
+
+Agora nossa página foi alterada de maneira dinâmica, utilizando uma variável do dicionário de contexto, criado via código Python. É importante se atentar para o nome da varíavel contida dentro do dicionário, para que não hajam problemas de renderização.
+
+Essa forma do Django de estruturar páginas web mescla código HTML com código Python. Podemos criar loops, iterações, condições e diversas outras coisas para reproduzir código HTML via linguagem de programação.
+
+Neste exemplo estamos usando dados que podem ser tratados como estáticos. Títulos e textos não são informações que necessitam de ser tratadas dinamicamente, pois provavelmente se manterão fixas por um longo período ou para sempre. Mas categorias do site, por outro lado, são tratadas de maneira dinâmica pois serão informações provindas do banco de dados.
+
+Um outro exemplo de informação dinâmica seria a data e hora. Podemos inserir um datetime via dicionário de contexto no nosso arquivo `views.py` para, em seguida, inserí-lo em nosso código HTML, utilizando o mesmo formato de variável que utilizamos para o título do nosso site.
+
+No momento iremos inserir nossas categorias diretamente no dicionário de contexto, mas, num próximo momento, iremos buscar essas informações diretamente do banco de dados.
+
+Adicionamos a seguinte lista dentro do nosso dicionário:
+
+```python
+'categorias': ['Lançamentos', 'Jogos em Promoção', 'Eventos']
+```
+
+Mas como trabalhamos com listas dentro do nosso código html?
+
+Se fizermos simplesmente
+
+```html
+<a href="#">{{categorias}}</a>
+```
+
+O navegador irá imprimir literalmente uma lista, com apenas um link para todas as categorias
+
+```
+['Lançamentos', 'Jogos em Promoção', 'Eventos']
+```
+
+E se tentarmos acessar essa lista via índice, obteremos um erro de renderização.
+
+Então como fazemos para imprimir apenas a categoria desejada na posição correta?
+
+No sistema de Template do Django, utilizaremos um loop for. Esse sistema de `Template` aceita uma linguagem muito similar a Python, onde podemos gerar códigos HTML dinâmicos, apenas para visualização do usuário.
+
+Nós criamos nossa variável `categorias`. Agora, para utilizarmos um loop for dentro do nosso código HTML, faremos da seguinte forma:
+
+```html
+{% for categoria in categorias %} <código HTML aqui> {% endfor %}</código>
+```
+
+Devemos sempre nos atentar a abertura do loop e a sua delimitação.
+No final, nosso código HTML será simplificado, podendo ser dinamicamente modificado e ficará da seguinte forma:
+
+```html
+{% for categoria in categorias %}
+<a href="#">{{categoria}}</a>
+{% endfor %}
+```
+
+Note que houve um processamento, feito pela função `render`, para que esse código dentro do nosso arquivo HTML fosse processado, gerando um HTML final, que contará com as três categorias, que inserimos no dicionário, separadamente no código.
+
+![class exercise](https://imgtr.ee/images/2023/07/14/f787edd517725b7c52f63b119dd76b9d.png)

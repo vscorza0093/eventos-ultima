@@ -103,9 +103,9 @@
 
   <div class="nav-scroller py-1 mb-3 border-bottom">
     <nav class="nav nav-underline justify-content-between">
-      <a class="nav-item nav-link link-body-emphasis active" href="#">Lançamentos</a>
-      <a class="nav-item nav-link link-body-emphasis" href="#">Jogos em Promoção</a>
-      <a class="nav-item nav-link link-body-emphasis" href="#">Eventos</a>
+      {% for category in categories %}
+      <a class="nav-item nav-link link-body-emphasis active" href="#">{{category}}</a>
+      {% endfor %}
 
     </nav>
   </div>
@@ -114,20 +114,21 @@
 <main class="container">
   <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
     <div class="col-md-12 px-0">
-      <h1 class="display-4 fst-italic">Summer Sale chegou na Steam!</h1>
-      <p class="lead my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore sed aut facere? Quibusdam harum, consectetur voluptates dolore tempora consequatur.</p>
-      <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Saiba mais</a></p>
+      <h1 class="display-4 fst-italic">{{ title }}</h1>
+      <p class="lead my-3">{{ text }}</p>
+      <p class="lead mb-0"><a href="https://store.steampowered.com/bundle/12726/SUMMER_SALE/" class="text-body-emphasis fw-bold" target="_blank">Saiba mais</a></p>
     </div>
   </div>
 
   <div class="row mb-2">
+    {%for event in events %}
     <div class="col-md-6">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-primary-emphasis">BGS</strong>
-          <h3 class="mb-0">Brasil Game Show 2023</h3>
-          <div class="mb-1 text-body-secondary">11 a 15 de Outubro</div>
-          <p class="card-text mb-auto">Evento ocorre no Expo Center Norte, em São Paulo.</p>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">{{ event.category }}</strong>
+          <h3 class="mb-0">{{ event.name }}</h3>
+          <div class="mb-1 text-body-secondary">{{ event.date_time }}</div>
+          <p class="card-text mb-auto">{{ event.description }}</p>
           <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
             Continue reading
             <svg class="bi"><use xlink:href="#chevron-right"/></svg>
@@ -138,23 +139,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-success-emphasis">CCXP</strong>
-          <h3 class="mb-0">CCXP 2023</h3>
-          <div class="mb-1 text-body-secondary">30 de novembro a 3 de dezembro</div>
-          <p class="mb-auto">São Paulo Expo - Rodovia dos Imigrantes, em São Paulo.</p>
-          <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
-            Continue reading
-            <svg class="bi"><use xlink:href="#chevron-right"/></svg>
-          </a>
-        </div>
-        <div class="col-auto d-none d-lg-block">
-          <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 
   <div class="row g-5">
@@ -191,7 +176,7 @@
 </main>
 
 <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-  <p>Site sobre Jogos</p>
+  <p>Site sobre Jogos {{ date_time }} </p>
   <p class="mb-0">
     <a href="#">Voltar ao topo</a>
   </p>
