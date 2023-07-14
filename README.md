@@ -196,6 +196,59 @@ def inicio(request):
 Acabamos de fazer a conexão entre nossa nova página e nossa aplicação django, configurando o caminho da nossa página após o domínio.
 A URL é o caminho para acessar a página e a View é a função que será ativada quando esse caminho for acessado.
 
-### Requests
+### Request
 
-VOLTAR AULA A PARTIR DOS 25 MINUTOS E 30 SEGUNDOS DE VÍDEO.
+Request é um parâmetro obrigatório que representa a requisição feita pelo navegador, ou seja, esse parâmetro carrega informações do navegador.
+
+Podemos utilizar o atributo META para recuperar os meta dados do navegador que fez a requisição, no momento da requisição. Também estarão presentes algumas informações vindas do django.
+
+Nesta requisição, o navegador manda uma série de cabeçalhos, um deles `HTTP USER AGENT`, onde o navegador comunica ao servidor quem ele é, ip de acesso, sua versão, o sistema operacional, engine de renderização, entre outras informações.
+
+## Templates: Django reconhecendo códigos HTML
+
+Para não precisarmos criar códigos HTML in-line, nós utilizaremos uma função "atalho" do django chamado de `Render`.
+
+O arquivo html que queremos que o django reconheça deve estar dentro de uma pasta chamada `templates`, isso faz com que não seja necessário especificar o caminho completo do arquivo para o django encontrá-lo.
+
+A função render, então, irá carregar esse arquivo html, ela terá algumas marcações especiais de processamento e será possível ler código python que estará contido dentro dos arquivos html.
+
+Para que o HTML seja de fato reconhecido, precisamos inserí-lo no arquivo `settings.py` do projeto, na definição `INSTALLED_APPS`
+
+```
+INSTALLED_APPS = [
+"django.contrib.admin",
+"django.contrib.auth",
+"django.contrib.contenttypes",
+"django.contrib.sessions",
+"django.contrib.messages",
+"django.contrib.staticfiles",
+"NOME DA PASTA ONDE ESTÁ CONTIDO O HTML", <------------
+]
+```
+
+Nosso `views.py` ficará assim:
+
+```python
+from django.http import HttpResponse
+from django.shortcuts import render
+
+
+def index(request):
+    return render(request, 'index.html')
+```
+
+Agora o Django é capaz de reconhecer nossoa arquivo HTML e transformá-lo em uma página web.
+
+## Static: Django reconhecendo CSS e JavaScript
+
+O arquivo css que queremos que o django reconheça deve estar dentro de uma pasta chamada `static`, isso faz com que não seja necessário especificar o caminho completo do arquivo para o django encontrá-lo.
+
+Para que os arquivos CSS e JavaScript sejam encontrados pelo Django, devemos verificar o atributo `STATIC_URL` do arquivo `settings.py` e utilizar seu valor como prefixo de toda importação de arquivo CSS ou JavaScript para dentro do nosso código HTML. Podemos alterar o valor padrão de `STATIC_URL` se for preferência.
+
+```python
+STATIC_URL = "static/"
+```
+
+```html
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" />
+```
