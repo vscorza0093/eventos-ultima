@@ -243,7 +243,7 @@ Agora o Django é capaz de reconhecer nossoa arquivo HTML e transformá-lo em um
 
 O arquivo css que queremos que o django reconheça deve estar dentro de uma pasta chamada `static`, isso faz com que não seja necessário especificar o caminho completo do arquivo para o django encontrá-lo.
 
-Para que os arquivos CSS e JavaScript sejam encontrados pelo Django, devemos verificar o atributo `STATIC_URL` do arquivo `settings.py` e utilizar seu valor como prefixo de toda importação de arquivo CSS ou JavaScript para dentro do nosso código HTML. Podemos alterar o valor padrão de `STATIC_URL` se for preferência.
+Para que os arquivos entendidos como estáticos, CSS e JavaScript, sejam encontrados pelo Django, devemos verificar o atributo `STATIC_URL` do arquivo `settings.py` e utilizar seu valor como prefixo de toda importação de arquivo CSS ou JavaScript para dentro do nosso código HTML. Podemos alterar o valor padrão de `STATIC_URL` se for preferência.
 
 ```python
 STATIC_URL = "static/"
@@ -252,3 +252,5 @@ STATIC_URL = "static/"
 ```html
 <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
 ```
+
+## Recuperando informações do banco de dados
